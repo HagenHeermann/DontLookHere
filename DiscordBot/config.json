@@ -1,0 +1,6 @@
+{
+  "name": "trash_bot",
+  "bot_secret": "supersecretkey",
+  "base_server_id": "id",
+  "discord_base_url": "https://discordapp.com/api"
+}
