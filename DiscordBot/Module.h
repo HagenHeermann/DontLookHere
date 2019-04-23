@@ -4,6 +4,7 @@
 class module
 {
 	public:
-		 std::string call(Bot::DiscordBot bot,std::string msg);
+		 std::string call(std::string msg);
 		 std::string get_module_name();
+		 std::string get_channel_id();
 };

@@ -28,10 +28,16 @@ void DiscordBot::bot_main()
 		*/
 		//TODO get the unread messages and put them into a q
 		std::string top_msg;
+		top_msg = "Test Message";
 		for(module umodule : modules)
 		{
 			std::string name = umodule.get_module_name();
+			std::string channel = umodule.get_channel_id();
+			std::string msg = umodule.call(top_msg);
 			std::cout << name << std::endl;
+			std::cout << channel << std::endl;
+			std::cout << msg << std::endl;
+			send_message(channel, msg);
 		}
 	}
 	std::cout << "shut down" << std::endl;

@@ -1,6 +1,6 @@
 #include "Command_Module.h"
 
-std::string Command_Module::call(Bot::DiscordBot bot, std::string msg)
+std::string Command_Module::call( std::string msg)
 {
 	for(std::string command : commands)
 	{
@@ -8,9 +8,21 @@ std::string Command_Module::call(Bot::DiscordBot bot, std::string msg)
 		{
 			if(command == "$test")
 			{
-				bot.send_message("493843755015864330", "test");
+				std::string res = "Test Message";
+				return res;
 			}
 		}
+		return "";
 	}
 	
+}
+
+std::string Command_Module::get_module_name()
+{
+	return "Command_Module";
+}
+
+std::string Command_Module::get_channel_id()
+{
+	return "493843755015864330";
 }
