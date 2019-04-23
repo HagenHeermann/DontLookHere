@@ -6,7 +6,6 @@
 #include <vector>
 
 using namespace Bot;
-using namespace std;
 using namespace nlohmann;
 
 
@@ -14,73 +13,73 @@ using namespace nlohmann;
 
 void DiscordBot::test() 
 {
-	cout << "start test";
+	std::cout << "start test";
 	send_message("493843755015864330", "test");
-	cout << "test done";
+	std::cout << "test done";
 }
 
 void DiscordBot::bot_main() 
 {
-	cout << "Main Started" << endl;
-	CURL* curl;
-	CURLcode res;
-
-	curl = curl_easy_init();
-	if (curl) 
+	std::cout << "Main Started" << std::endl;
+	while(running)
 	{
-		curl_easy_setopt(curl, CURLOPT_URL, "https://google.com");
-		curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-		
-		res = curl_easy_perform(curl);
-		if(res != CURLE_OK)
+		/*
+			Main loop
+		*/
+		//TODO get the unread messages and put them into a q
+		std::string top_msg;
+		for(module umodule : modules)
 		{
-			cout << "failed" << endl;
-			cout << "error code:" << curl_easy_strerror(res) << endl;
-			curl_easy_cleanup(curl);
-		}
-		else
-		{
-			cout << "success" << endl;
-			curl_easy_cleanup(curl);
+			std::string name = umodule.get_module_name();
+			std::cout << name << std::endl;
 		}
 	}
+	std::cout << "shut down" << std::endl;
+}
+
+void DiscordBot::shut_down()
+{
+	std::cout << "shutting down" << std::endl;
+	running = false;
 }
 
 // Constructor
 
 DiscordBot::DiscordBot()
 {
-	cout << "Default Constructor" << endl;
+	std::cout << "Default Constructor" << std::endl;
+	running = true;
 }
 
 DiscordBot::DiscordBot(int server_port, std::string server)
 {
 	server_addr = { server_port,server };
-	cout << "Spesific Constructor" << endl;
-	cout << server_addr.port << endl;
-	cout << server_addr.url << endl;
-
+	std::cout << "Spesific Constructor" << std::endl;
+	std::cout << server_addr.port << std::endl;
+	std::cout << server_addr.url << std::endl;
+	running = true;
 }
 
-DiscordBot::DiscordBot(string base_addr, string bot_sec, string ser_id,vector<string>mon_channels)
+DiscordBot::DiscordBot(std::string base_addr, std::string bot_sec, std::string ser_id, std::vector<std::string>mon_channels, std::vector<module>used_modules)
 {
 	bot_secret = bot_sec;
 	base_url = base_addr;
 	server_id = ser_id;
 	monitored_channels = mon_channels;
-	cout << "Bot obj created" << endl;
+	running = true;
+	std::cout << "Bot obj created" << std::endl;
 }
 
 // Private
 
-int DiscordBot::send_message(string channel_id, string msg)
+int DiscordBot::send_message(std::string channel_id, std::string msg)
 {
-	string path = "/channels/" + channel_id + "/messages";
-	cout << path << endl;
+	std::string path = "/channels/" + channel_id + "/messages";
+	std::cout << path << std::endl;
 	json j_msg;
 	j_msg["content"] = msg;
 	j_msg["tts"] = false;
-	string str_msg = j_msg.dump();
+	std::string str_msg = j_msg.dump();
 	
 	CURL* curl;
 	CURLcode res;
@@ -89,8 +88,8 @@ int DiscordBot::send_message(string channel_id, string msg)
 	if(curl)
 	{
 		struct curl_slist* chunk = NULL;
-		string auth_header = "Authorization: Bot " + bot_secret;
-		string cont_header = "Content-Type: application/json";
+		std::string auth_header = "Authorization: Bot " + bot_secret;
+		std::string cont_header = "Content-Type: application/json";
 		chunk = curl_slist_append(chunk,auth_header.c_str());
 		chunk = curl_slist_append(chunk, cont_header.c_str());
 		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, chunk);
@@ -102,20 +101,20 @@ int DiscordBot::send_message(string channel_id, string msg)
 		if(res != CURLE_OK)
 		{
 			curl_easy_cleanup(curl);
-			cout << "curl perform failed due to error: " << curl_easy_strerror(res) << endl;
+			std::cout << "curl perform failed due to error: " << curl_easy_strerror(res) << std::endl;
 			return 1;
 		}
 		else
 		{
 			curl_easy_cleanup(curl);
-			cout << "curl perform success" << endl;
+			std::cout << "curl perform success" << std::endl;
 			return 0;
 		}
 		
 	}
 	else
 	{
-		cout << "Failed to send message" << endl;
+		std::cout << "Failed to send message" << std::endl;
 		return 1;
 	}
 }

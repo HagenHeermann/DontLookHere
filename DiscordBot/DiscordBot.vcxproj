@@ -156,10 +156,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bot.cpp" />
+    <ClCompile Include="Command_Module.cpp" />
     <ClCompile Include="DiscordBotMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bot.h" />
+    <ClInclude Include="Command_Module.h" />
+    <ClInclude Include="Module.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="config.json" />

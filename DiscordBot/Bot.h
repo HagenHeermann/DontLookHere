@@ -4,14 +4,15 @@
 
 #include <string>
 #include <vector>
-using namespace std;
+#include "Module.h"
+
 
 namespace Bot 
 {
 	struct addr
 	{
 		int port;
-		string url;
+		std::string url;
 	};
 
 	class DiscordBot 
@@ -19,17 +20,19 @@ namespace Bot
 		public:
 			void bot_main();
 			DiscordBot();
-			DiscordBot(int server_port, string server_addr);
-			DiscordBot(string base_addr, string bot_secret, string server_id, vector<string>mon_channel);
+			DiscordBot(int server_port, std::string server_addr);
+			DiscordBot(std::string base_addr, std::string bot_secret, std::string server_id, std::vector<std::string>mon_channel,std::vector<module>used_modules);
 			void test();
+			int send_message(std::string channel_id, std::string msg);
+			void shut_down();
 		private:
+			bool running;
 			addr server_addr;
-			string bot_secret;
-			string base_url;
-			string server_id;
-			vector<string> monitored_channels;
-			int send_message(string channel_id,string msg);
-
+			std::string bot_secret;
+			std::string base_url;
+			std::string server_id;
+			std::vector<std::string> monitored_channels;
+			std::vector<module> modules;
 			
 	};
 }
